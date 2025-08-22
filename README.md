@@ -1,3 +1,10 @@
 # TXCore API Utility Scripts
-## TXEdge Stream Creator (Backup Path Only)
-## TXCore Category & Channel Creator
+
+## About
+This is a collection of Python scripts for automated TXEdge resource (stream/source/output) creation via REST API.
+
+## Scripts
+```
+txcore-channel-category-creator.py
+txedge-stream-creator-backup-path.py
+```
