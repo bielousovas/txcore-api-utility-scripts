@@ -32,17 +32,24 @@ api_headers = {
 #============ Configurable items START ============
 
 dry_run = False # True=no API calls are made, results are printed in console; False=normal operation
-channel_count = 20 # total TXCore channel count
+channel_count = 40 # total TXCore channel count
 sleep_time = 1 # delay between API calls in seconds
 first_ch = 1 # First channel of the range. 1 if creating from scratch. 
+
 #srt_source_ip = '194.76.59.20' # INX01
+#srt_source_ip_bkp = '194.76.104.31' # EQP01
+
 #srt_source_ip = '194.76.59.21' # INX02
+#srt_source_ip_bkp = '194.76.104.32' # EQP02
+
 srt_source_ip = '194.76.59.22' # INX03
-srt_first_port = 4841
-provider_name = "ADC" # 3 letters acronym - No need to have _CH
-channel_number = 21 # channel numbering start
-category_name = "ADHOC"
-category_id = '603f87befcb1184432a4a564' # use this only if category exists already
+srt_source_ip_bkp = '194.76.104.33' # EQP03
+
+srt_first_port = 4701 # First of the SRT OUTPUT port of the Edges (SRT source for the player)
+provider_name = "CRO" # 3 letters acronym - No need to have _CH
+channel_number = 5301 # channel numbering start
+category_name = "Crionet"
+category_id = '68e52b30668a24cd20920ab2' # use this only if category exists already
 
 #============ Configurable items END ============
 
@@ -85,14 +92,27 @@ def createChannels(category_id, dry_run=False):
                     "sources": [{
                                 "protocol": 6,
                                 "address": f"{srt_source_ip}:{srt_first_port + i}",
+                                "priority": 0,
                                 "options": {
                                     "srt": {
                                         "encrypted": True,
-                                        "passphrase": passphrase
+                                        "passphrase": passphrase,
                                     }
                                 }
-                                #"geofence": geofence_ids['ave'] # Not needed for this workflow, in principle
-                                }]
+                                },
+                                {
+                                "protocol": 6,
+                                "address": f"{srt_source_ip_bkp}:{srt_first_port + i}",
+                                "priority": 1,
+                                "options": {
+                                    "srt": {
+                                        "encrypted": True,
+                                        "passphrase": passphrase,
+                                        
+                                    }
+                                }
+                                }
+                                ]
 
         }
         if dry_run:
@@ -112,7 +132,7 @@ def createChannels(category_id, dry_run=False):
 
 # Call the functions
 # Comment this line category_id if category already created
-#category_id = createCategory(dry_run=dry_run)
+#category_id = createCategory(dry_run=dry_run) # use only if category need to be created.
 createChannels(category_id, dry_run=dry_run)
 
 end_time = time.time()
