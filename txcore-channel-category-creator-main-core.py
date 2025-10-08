@@ -10,9 +10,9 @@ load_dotenv()
 api_token = os.environ.get('BEARER_TOKEN_PROD')
 #api_token = os.environ.get('BEARER_TOKEN_DEV')
 
-#api_url_stb = os.environ.get('APIURLSTB')
-api_url_stb = os.environ.get('APIURLPROD')
-#api_url_stb = os.environ.get('APIURLDEV')
+#api_url = os.environ.get('APIURLSTB')
+api_url = os.environ.get('APIURLPROD')
+#api_url = os.environ.get('APIURLDEV')
 
 passphrase = os.environ.get('INTERNALSRTPASSPHRASE')
 
@@ -32,24 +32,24 @@ api_headers = {
 #============ Configurable items START ============
 
 dry_run = False # True=no API calls are made, results are printed in console; False=normal operation
-channel_count = 40 # total TXCore channel count
+channel_count = 20 # total TXCore channel count
 sleep_time = 1 # delay between API calls in seconds
-first_ch = 1 # First channel of the range. 1 if creating from scratch. 
-
+first_ch = 1 # First channel of the range. 1 if creating from scratch.
+ 
 #srt_source_ip = '194.76.59.20' # INX01
 #srt_source_ip_bkp = '194.76.104.31' # EQP01
-
+ 
 #srt_source_ip = '194.76.59.21' # INX02
 #srt_source_ip_bkp = '194.76.104.32' # EQP02
-
+ 
 srt_source_ip = '194.76.59.22' # INX03
 srt_source_ip_bkp = '194.76.104.33' # EQP03
-
-srt_first_port = 4701 # First of the SRT OUTPUT port of the Edges (SRT source for the player)
-provider_name = "CRO" # 3 letters acronym - No need to have _CH
-channel_number = 5301 # channel numbering start
-category_name = "Crionet"
-category_id = '68e52b30668a24cd20920ab2' # use this only if category exists already
+ 
+srt_first_port = 4841 # First of the SRT OUTPUT port of the Edges (SRT source for the player)
+provider_name = "ADC" # 3 letters acronym - No need to have _CH
+channel_number = 21 # channel numbering start
+category_name = "ADHOC"
+category_id = '603f87befcb1184432a4a564' # use this only if category exists already
 
 #============ Configurable items END ============
 
@@ -70,7 +70,7 @@ def createCategory(dry_run=False):
         print('====================================================')
         return None
 
-    create_category = session.post(api_url_stb + '/category/', headers=api_headers, json=request_body_cat)
+    create_category = session.post(api_url + '/category/', headers=api_headers, json=request_body_cat)
     print("ResponseHeaders:", create_category.headers)
     print("ApiResponse:", json.loads(create_category.text))
     print("RequestStatusCode:", create_category.status_code)
@@ -122,7 +122,7 @@ def createChannels(category_id, dry_run=False):
             continue
 
         print("RequestBody:", request_body)
-        create_channel = session.post(api_url_stb + '/channel/', headers=api_headers, json=request_body)
+        create_channel = session.post(api_url + '/channel/', headers=api_headers, json=request_body)
         print("ResponseHeaders:", create_channel.headers)
         print("ApiResponse:", json.loads(create_channel.text))
         print("StatusCode:", create_channel.status_code)
