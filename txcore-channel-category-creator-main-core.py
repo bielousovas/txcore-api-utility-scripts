@@ -4,7 +4,14 @@ import requests
 import time
 
 from dotenv import load_dotenv
-load_dotenv()
+
+env_path = '.env'
+
+if os.path.exists(env_path):
+    load_dotenv(env_path)
+else:
+    raise FileNotFoundError(f"File {env_path} not found. Terminating script.")
+
 
 #api_token = os.environ.get('BEARER_TOKEN_STB')
 api_token = os.environ.get('BEARER_TOKEN_PROD')
@@ -32,7 +39,7 @@ api_headers = {
 #============ Configurable items START ============
 
 dry_run = False # True=no API calls are made, results are printed in console; False=normal operation
-channel_count = 20 # total TXCore channel count
+channel_count = 5 # total TXCore channel count
 sleep_time = 1 # delay between API calls in seconds
 first_ch = 1 # First channel of the range. 1 if creating from scratch.
  
@@ -46,8 +53,8 @@ srt_source_ip = '194.76.59.22' # INX03
 srt_source_ip_bkp = '194.76.104.33' # EQP03
  
 srt_first_port = 4841 # First of the SRT OUTPUT port of the Edges (SRT source for the player)
-provider_name = "ADC" # 3 letters acronym - No need to have _CH
-channel_number = 21 # channel numbering start
+provider_name = "TST" # 3 letters acronym - No need to have _CH
+channel_number = 21001 # channel numbering start
 category_name = "ADHOC"
 category_id = '603f87befcb1184432a4a564' # use this only if category exists already
 
